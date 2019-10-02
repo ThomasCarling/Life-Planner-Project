@@ -1,4 +1,4 @@
-package oldmain.datastorage;
+package dataStorage;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

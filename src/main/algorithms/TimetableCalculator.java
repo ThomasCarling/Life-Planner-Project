@@ -1,11 +1,11 @@
-package oldmain.algorithms;
+package algorithms;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import oldmain.events.Event;
+import events.Event;
 
 public class TimetableCalculator {
     public static ArrayList<Event> calculate(ArrayList<Event> events, LocalDateTime start, LocalDateTime end) {

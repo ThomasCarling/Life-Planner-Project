@@ -1,4 +1,4 @@
-package oldmain.addresses;
+package addresses;
 
 public class PostcodeChecker {
 

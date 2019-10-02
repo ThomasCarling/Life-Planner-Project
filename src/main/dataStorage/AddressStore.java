@@ -1,9 +1,9 @@
-package oldmain.datastorage;
+package dataStorage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import oldmain.addresses.Address;
+import addresses.Address;
 
 // class to save a list of distances.
 

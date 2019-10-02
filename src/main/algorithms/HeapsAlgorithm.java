@@ -1,4 +1,4 @@
-package oldmain.algorithms;
+package algorithms;
 
 public class HeapsAlgorithm {
     

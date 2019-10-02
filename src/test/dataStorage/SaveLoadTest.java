@@ -1,4 +1,4 @@
-package test.dataStorage;
+package dataStorage;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import oldmain.datastorage.SaveLoad;
+import dataStorage.SaveLoad;
 
 public class SaveLoadTest {
     String testSaveLoad;

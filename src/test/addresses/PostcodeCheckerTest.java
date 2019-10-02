@@ -1,11 +1,11 @@
-package test.addresses;
+package addresses;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import oldmain.addresses.PostcodeChecker;
+import addresses.PostcodeChecker;
 
 public class PostcodeCheckerTest {
 

@@ -1,4 +1,4 @@
-package test.algorithms;
+package algorithms;
 
 import static org.junit.Assert.*;
 
@@ -8,11 +8,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import oldmain.addresses.Address;
-import oldmain.algorithms.ShortestRoute;
-import oldmain.datastorage.AddressStore;
-import oldmain.datastorage.EventStore;
-import oldmain.events.Event;
+import addresses.Address;
+import algorithms.ShortestRoute;
+import dataStorage.AddressStore;
+import dataStorage.EventStore;
+import events.Event;
 
 public class ShortestRouteTest {
 

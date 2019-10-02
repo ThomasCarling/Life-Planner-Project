@@ -1,4 +1,4 @@
-package test.dataStorage;
+package dataStorage;
 
 import static org.junit.Assert.*;
 
@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import oldmain.datastorage.EventStore;
-import oldmain.events.Event;
+import dataStorage.EventStore;
+import events.Event;
 
 
 public class EventStoreTest {

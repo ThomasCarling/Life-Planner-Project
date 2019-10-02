@@ -1,7 +1,7 @@
-package oldmain.algorithms;
+package algorithms;
 
-import oldmain.datastorage.AddressStore;
-import oldmain.events.Event;
+import dataStorage.AddressStore;
+import events.Event;
 
 // class to find shortest route between a number of nodes, starting at one, ending at another, and visiting every point.
 

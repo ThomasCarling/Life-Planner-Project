@@ -1,9 +1,9 @@
-package oldmain.datastorage;
+package dataStorage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import oldmain.events.Event;
+import events.Event;
 
 //class to save a list of different Events
 

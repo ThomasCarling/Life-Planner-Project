@@ -1,4 +1,4 @@
-package oldmain.addresses;
+package addresses;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package test.events;
+package events;
 
 import static org.junit.Assert.*;
 
@@ -11,7 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import oldmain.events.Event;
+import events.Event;
 
 
 public class EventTest {

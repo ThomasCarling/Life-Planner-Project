@@ -1,4 +1,4 @@
-package test.dataStorage;
+package dataStorage;
 
 import static org.junit.Assert.*;
 
@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import oldmain.addresses.Address;
-import oldmain.datastorage.AddressStore;
+import addresses.Address;
+import dataStorage.AddressStore;
 
 public class AddressStoreTest {
     
