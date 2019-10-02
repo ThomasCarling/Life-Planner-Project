@@ -1,4 +1,4 @@
-package lifeplannerproject.algorithms;
+package test.algorithms;
 
 import static org.junit.Assert.*;
 
@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import lifeplannerproject.events.Event;
+import oldmain.events.Event;
 
 public class TimetableCalculatorTest {
     ArrayList<Event> test1;

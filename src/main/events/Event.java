@@ -1,4 +1,4 @@
-package lifeplannerproject.events;
+package oldmain.events;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import lifeplannerproject.addresses.PostcodeChecker;
+import oldmain.addresses.PostcodeChecker;
 
 public class Event implements Serializable {
 

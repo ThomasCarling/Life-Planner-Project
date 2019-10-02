@@ -1,7 +1,7 @@
-package lifeplannerproject.algorithms;
+package oldmain.algorithms;
 
-import lifeplannerproject.datastorage.AddressStore;
-import lifeplannerproject.events.Event;
+import oldmain.datastorage.AddressStore;
+import oldmain.events.Event;
 
 // class to find shortest route between a number of nodes, starting at one, ending at another, and visiting every point.
 

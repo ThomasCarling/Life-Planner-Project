@@ -1,4 +1,4 @@
-package lifeplannerproject.datastorage;
+package test.dataStorage;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import lifeplannerproject.addresses.Address;
+import oldmain.addresses.Address;
+import oldmain.datastorage.AddressStore;
 
 public class AddressStoreTest {
     

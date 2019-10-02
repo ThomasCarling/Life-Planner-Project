@@ -1,10 +1,12 @@
-package lifeplannerproject.addresses;
+package test.addresses;
 
 import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import oldmain.addresses.Address;
 
 public class AddressTest {
     Address one;

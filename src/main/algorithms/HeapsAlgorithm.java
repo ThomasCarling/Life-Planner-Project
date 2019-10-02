@@ -1,4 +1,4 @@
-package lifeplannerproject.algorithms;
+package oldmain.algorithms;
 
 public class HeapsAlgorithm {
     

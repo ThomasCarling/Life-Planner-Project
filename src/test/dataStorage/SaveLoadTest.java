@@ -1,4 +1,4 @@
-package lifeplannerproject.datastorage;
+package test.dataStorage;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,8 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import oldmain.datastorage.SaveLoad;
 
 public class SaveLoadTest {
     String testSaveLoad;

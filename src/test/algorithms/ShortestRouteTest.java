@@ -1,4 +1,4 @@
-package lifeplannerproject.algorithms;
+package test.algorithms;
 
 import static org.junit.Assert.*;
 
@@ -8,10 +8,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import lifeplannerproject.addresses.Address;
-import lifeplannerproject.datastorage.AddressStore;
-import lifeplannerproject.datastorage.EventStore;
-import lifeplannerproject.events.Event;
+import oldmain.addresses.Address;
+import oldmain.algorithms.ShortestRoute;
+import oldmain.datastorage.AddressStore;
+import oldmain.datastorage.EventStore;
+import oldmain.events.Event;
 
 public class ShortestRouteTest {
 

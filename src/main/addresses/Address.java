@@ -1,4 +1,4 @@
-package lifeplannerproject.addresses;
+package oldmain.addresses;
 
 import java.io.Serializable;
 import java.util.ArrayList;

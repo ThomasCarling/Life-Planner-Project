@@ -1,9 +1,9 @@
-package lifeplannerproject.datastorage;
+package oldmain.datastorage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import lifeplannerproject.addresses.Address;
+import oldmain.addresses.Address;
 
 // class to save a list of distances.
 

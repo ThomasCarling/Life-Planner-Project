@@ -1,4 +1,4 @@
-package lifeplannerproject.addresses;
+package oldmain.addresses;
 
 public class PostcodeChecker {
 

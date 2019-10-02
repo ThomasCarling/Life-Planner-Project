@@ -1,10 +1,12 @@
-package lifeplannerproject.algorithms;
+package test.algorithms;
 
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
 import org.junit.Test;
+
+import oldmain.algorithms.HeapsAlgorithm;
 
 public class HeapsAlgorithmTest {
 

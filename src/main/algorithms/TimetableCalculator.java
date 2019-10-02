@@ -1,11 +1,11 @@
-package lifeplannerproject.algorithms;
+package oldmain.algorithms;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import lifeplannerproject.events.Event;
+import oldmain.events.Event;
 
 public class TimetableCalculator {
     public static ArrayList<Event> calculate(ArrayList<Event> events, LocalDateTime start, LocalDateTime end) {

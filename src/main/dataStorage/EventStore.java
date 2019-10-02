@@ -1,9 +1,9 @@
-package lifeplannerproject.datastorage;
+package oldmain.datastorage;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import lifeplannerproject.events.Event;
+import oldmain.events.Event;
 
 //class to save a list of different Events
 
