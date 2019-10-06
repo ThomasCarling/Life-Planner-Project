@@ -2,174 +2,155 @@ package addresses;
 
 public class PostcodeChecker {
 
-    public static boolean check(String postcode) {
+    /**
+     * Method to check the validity of a given postcode, based on the <a href = 
+     * https://en.wikipedia.org/wiki/Postcodes_in_the_United_Kingdom#Formatting>wikipedia entry</a> 
+     * for the Formatting of postcodes in the United Kingdom, correct as of 20:54 GMT+1 on 03/10/2019.
+     * 
+     * 
+     * @param postcode the postcode to check.
+     * @return true if valid, false if invalid.
+     */
+    public static boolean checkIsValid(String postcode) {
+
+	correctFormat(postcode);
+
+	/* check that postcode is between 6 and 8 characters long */
+	if (postcode.length() < 6 || postcode.length() > 8) {
+	    return false;
+	}
+
+	/* variable to store every valid number */
+	String validNumber = "0123456789"; 
+
+	/* Split the postcode into it's two main component parts, the 
+	 * "Outward Code", or the first 2 to 4 characters placed before 
+	 * the space, and the "Inward Code", the last three characters 
+	 * after the space. */
+	String outwardCode = postcode.substring(0, postcode.length() - 4);
+	String inwardCode = postcode.substring(postcode.length() - 3);
+
+	/* Split inwardCode into it's componenents, the Sector (first
+	 *  character, should be a single digit) and the Unit (last two
+	 *  characters, should be two letters, excluding C, I, K, M, O, 
+	 *  and V) */
+	String sector = inwardCode.substring(0, 1);
+	String unit = inwardCode.substring(1);
+
+	/* Then check them both*/
+	if (!validNumber.contains(sector) || !checkLetter(unit, "CIKMOV")) {
+	    return false;
+	}
+
+	/* a few variables, to make manipulating the individual characters in outwardCode
+	 * clearer as we progress */
+	String outwardCodeChar1 = outwardCode.substring(0,1);
+	String outwardCodeChar2 = outwardCode.substring(1, 2);
+	String outwardCodeChar3;
+	String outwardCodeChar4;
+
+	/* The first character of the outwardCode is always a letter, excluding
+	 * Q, V, and X. */
+	if (!checkLetter(outwardCodeChar1, "QVX")) {
+	    return false;
+	}
+
+	/* now it get's slightly more convoluted, with several different possible
+	 * formats depending on the length of the outward code. */
+	switch (outwardCode.length()) {
+
+	/* In this case, the only valid value for the second character 
+	 * is a digit */
+	case 2 : 
+	    return validNumber.contains(outwardCodeChar2) ? true : false;
+
+	case 3 : 
+	    outwardCodeChar3 = outwardCode.substring(2, 3);
+
+	    /* Here, if the second character is a letter (excluding I, J, and Z) 
+	     * then the last character must be a number. */
+	    if (checkLetter(outwardCodeChar2, "IJZ")) {
+		return validNumber.contains(outwardCodeChar3) ? true : false;
+
+		/* and if it's a number then the last character can be a number or a 
+		 * letter excluding I, L, M, N, O, Q, R, V, X, Y, and Z. */
+	    } else if (validNumber.contains(outwardCodeChar2)) {
+		return validNumber.contains(outwardCodeChar3) || checkLetter(outwardCodeChar3, "ILMNOQRVXYZ") 
+			? true : false;
+	    } else {
+		return false;
+	    }
+
+	case 4 : 
+	    outwardCodeChar3 = outwardCode.substring(2, 3);
+	    outwardCodeChar4 = outwardCode.substring(3, 4);
+
+	    /* In this case, the second character must be a letter excluding I, J,
+	     * and Z, and the third character a number. */
+	    if (!checkLetter(outwardCodeChar2, "IJZ") || !validNumber.contains(outwardCodeChar3)) {
+		return false;
+	    } else {
+		
+		/* The last character must be a number, or a letter excluding a long 
+		 * list I can't be bothered to write out twice. */
+		return validNumber.contains(outwardCodeChar4) || checkLetter(outwardCodeChar4, "CDFGIJKLOQSTUZ") 
+			? true : false;
+	    }
+	}
+
+	/* just to keep the IDE happy, should never reach this */
+	return false;
+    }
+
+
+    /**
+     * Method to correct the format of a postcode, without regards to the contents.
+     * @param postcode the postcode to reformat.
+     * @return the postcode, now capitalised, and with a gap before the last three characters.
+     */
+    public static String correctFormat(String postcode) {
 
 	postcode = postcode.toUpperCase();
 
-	String finalFirst;
-	String finalSecond;
+	/* get rid of all gaps */
+	postcode = postcode.replace(" ", "");
 
-	String firstHalf = getSubstring(postcode, true).trim();
-	String secondHalf = getSubstring(postcode, false).trim();
-
-	if (!(checkLength(firstHalf, true) && !checkLength(secondHalf, false))) {
-	    if (canFix(firstHalf, secondHalf)) {
-
-		finalFirst = fix(firstHalf, secondHalf, true);
-		finalSecond = fix(firstHalf, secondHalf, false);
-		if (checkSecondHalf(finalSecond) && checkFirstHalf(finalFirst)) {
-		    return true;
-		}
-	    }
-	}
-	return false;
+	/* return postcode with gap placed in the correct position*/
+	return postcode.substring(0, postcode.length() - 3) + " " + postcode.substring(postcode.length() - 3);
     }
 
-    public static String fix(String postcode) {
+    /** 
+     * Private method to check that a String is made up entirely of capitalised letters.
+     * @param checkThis String to check.
+     * @param excludeTheseLetters letters that are invalid, do not include if every letter is valid.
+     * @return true if the String only includes letters and contains no invalid letters, and 
+     * false otherwise.
+     */
+    private static boolean checkLetter(String checkThis, String excludeTheseLetters) {
 
-	postcode = postcode.toUpperCase();
-
-	String firstHalf = getSubstring(postcode, true).trim();
-	String secondHalf = getSubstring(postcode, false).trim();
-
-	String finalFirst = fix(firstHalf, secondHalf, true);
-	String finalSecond = fix(firstHalf, secondHalf, false);
-
-	return finalFirst + " " + finalSecond;
-
-    }
-
-    protected static String getSubstring (String toSplit, boolean firstHalf) {
-
-	toSplit = toSplit.trim();
-
-	int whiteSpace = toSplit.indexOf(" ");
-
-	if (firstHalf) {
-	    if (whiteSpace == -1) {
-		return toSplit;
+	/* While checkThis is more than a single character, run each character in turn through
+	 * the method and return false if it isn't valid. */
+	while (checkThis.length() > 1) {
+	    if (checkLetter(checkThis.substring(0, 1), excludeTheseLetters)) {
+		checkThis = checkThis.substring(1);
 	    } else {
-		return toSplit.substring(0, whiteSpace);
-	    }
-	} else {
-	    if (whiteSpace == -1) {
-		return "";
-	    } else {
-		return toSplit.substring(whiteSpace + 1);
+		return false;
 	    }
 	}
+
+	String validLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	excludeTheseLetters = excludeTheseLetters.toUpperCase();
+	checkThis = checkThis.toUpperCase();
+
+	/* remove the invalid letters from validLetters. */
+	for (int i = 0; i < excludeTheseLetters.length(); i++) {
+	    validLetters.replace(excludeTheseLetters.substring(i, i + 1), "");
+	}
+
+	return validLetters.contains(checkThis) ? true : false;
     }
 
-    protected static boolean checkLength(String half, boolean firstHalf) {
-	if (firstHalf) {
-	    if (half.length() < 5 && half.length() > 1) {
-		return true;
-	    }
-	    return false;
-	} else {
-	    if (half.length() == 3) {
-		return true;
-	    }
-	    return false;
-	}
-    }
-
-    protected static boolean numberCheck(String number) {
-
-	String valid = "1234567890";
-	return(valid.contains(number) ? true : false);
-    }
-
-
-    protected static boolean letterCheck(String letter, String exclude) {
-
-	exclude = exclude.toUpperCase();
-	letter = letter.toUpperCase();
-	String valid = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-	for (int i = 0; i < exclude.length(); i++) {
-	    int removeIndex = valid.indexOf(exclude.substring(i, i + 1));
-	    valid = valid.substring(0, removeIndex) + valid.substring(removeIndex + 1);
-	}
-
-	return valid.contains(letter) ? true : false;
-    }
-
-    protected static boolean letterCheck(String letter) {
-	return letterCheck(letter, "");
-    }
-
-    protected static boolean canFix(String firstHalf, String secondHalf) {
-
-	String whole = firstHalf + secondHalf;
-	whole = whole.replaceAll(" ", "");
-
-	return (whole.length() < 8 && whole.length() > 4 ? true : false);
-    }
-
-    protected static String fix(String firstHalf, String secondHalf, boolean getFirst) {
-
-	String whole = firstHalf + secondHalf;
-	whole = whole.replaceAll(" ", "");
-
-	if (getFirst) {
-	    return whole.substring(0, whole.length() - 3);
-	} else {
-	    return whole.substring(whole.length() - 3);
-	}
-    }
-
-    protected static boolean checkSecondHalf(String secondHalf) {
-	String invalid = "CIKMOV";
-	if (numberCheck(secondHalf.substring(0,1))) {
-	    if (letterCheck(secondHalf.substring(1,2), invalid)) {
-		if (letterCheck(secondHalf.substring(2), invalid)) {
-		    return true;
-		}
-	    }
-	}
-	return false;
-    }
-
-    protected static boolean checkFirstHalf(String firstHalf) {
-	if (!letterCheck(firstHalf.substring(0, 1), "QVX")) {
-	    return false;
-	}
-
-	if (firstHalf.length() == 2) {
-	    if (numberCheck(firstHalf.substring(1))) {
-		return true;
-	    }
-	}
-
-	if (firstHalf.length() == 3) {
-	    if (numberCheck(firstHalf.substring(1, 2))) {
-		if (numberCheck(firstHalf.substring(2))) {
-		    return true;
-		}
-		if (letterCheck(firstHalf.substring(2), "ILMNOPQRVXYZ")) {
-		    return true;
-		}
-	    }
-	    if (letterCheck(firstHalf.substring(1, 2), "IJZ")) {
-		if (numberCheck(firstHalf.substring(2))) {
-		    return true;
-		}	    
-	    }
-	}
-
-	if (firstHalf.length() == 4) {
-	    if (letterCheck(firstHalf.substring(1, 2), "IJZ")) {
-		if (numberCheck(firstHalf.substring(2, 3))) {
-		    if (letterCheck(firstHalf.substring(3))) {
-			return true;
-		    }
-		    if (numberCheck(firstHalf.substring(3))) {
-			return true;
-		    }
-		}
-	    }
-	}
-	return false;
+    private static boolean checkLetter(String letter) {
+	return checkLetter(letter, "");
     }
 }

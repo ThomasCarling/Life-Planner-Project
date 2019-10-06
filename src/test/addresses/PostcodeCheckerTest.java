@@ -15,32 +15,32 @@ public class PostcodeCheckerTest {
 
     @Test
     public void testCheck() {
-	assertTrue(PostcodeChecker.check("M1 1AA"));
-	assertTrue(PostcodeChecker.check("M60 1NW"));
-	assertTrue(PostcodeChecker.check("CR2 6XH"));
-	assertTrue(PostcodeChecker.check("DN55 1PT"));
-	assertTrue(PostcodeChecker.check("W1A 1HQ"));
-	assertTrue(PostcodeChecker.check("EC1A 1BB"));
-	assertTrue(PostcodeChecker.check("EC1A1BB"));
+	assertTrue(PostcodeChecker.checkIsValid("M1 1AA"));
+	assertTrue(PostcodeChecker.checkIsValid("M60 1NW"));
+	assertTrue(PostcodeChecker.checkIsValid("CR2 6XH"));
+	assertTrue(PostcodeChecker.checkIsValid("DN55 1PT"));
+	assertTrue(PostcodeChecker.checkIsValid("W1A 1HQ"));
+	assertTrue(PostcodeChecker.checkIsValid("EC1A 1BB"));
+	assertTrue(PostcodeChecker.checkIsValid("EC1A1BB"));
 
 	
-	assertTrue(PostcodeChecker.check(" me19    6aj "));
-	assertTrue(PostcodeChecker.check(" ec1Y  4sB "));
+	assertTrue(PostcodeChecker.checkIsValid(" me19    6aj "));
+	assertTrue(PostcodeChecker.checkIsValid(" ec1Y  4sB "));
 
-	assertFalse(PostcodeChecker.check("Q1 1AA"));
-	assertFalse(PostcodeChecker.check("DN55 1KM"));
-	assertFalse(PostcodeChecker.check("1MM 1PT"));
-	assertFalse(PostcodeChecker.check("1MMTJ 1PT"));
-	assertFalse(PostcodeChecker.check("1MMTJ 1PJT"));
-	assertFalse(PostcodeChecker.check("1MJ 1PHT"));
-	assertFalse(PostcodeChecker.check("Hello, I'm a postcode"));
+	assertFalse(PostcodeChecker.checkIsValid("Q1 1AA"));
+	assertFalse(PostcodeChecker.checkIsValid("DN55 1KM"));
+	assertFalse(PostcodeChecker.checkIsValid("1MM 1PT"));
+	assertFalse(PostcodeChecker.checkIsValid("1MMTJ 1PT"));
+	assertFalse(PostcodeChecker.checkIsValid("1MMTJ 1PJT"));
+	assertFalse(PostcodeChecker.checkIsValid("1MJ 1PHT"));
+	assertFalse(PostcodeChecker.checkIsValid("Hello, I'm a postcode"));
     }
     
     @Test
     public void testFixOne() {
-	assertEquals("E8 2JP", PostcodeChecker.fix("e 82   J P"));
+	assertEquals("E8 2JP", PostcodeChecker.correctFormat("e 82   J P"));
 
-	assertEquals("ME19 6AJ", PostcodeChecker.fix("M E1 96 aJ"));
+	assertEquals("ME19 6AJ", PostcodeChecker.correctFormat("M E1 96 aJ"));
 
     }
     

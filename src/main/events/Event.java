@@ -53,7 +53,7 @@ public class Event implements Serializable {
     }
 
     public void setPostcode(String postcode) {
-	if (PostcodeChecker.check(postcode)) {
+	if (PostcodeChecker.checkIsValid(postcode)) {
 	    this.postcode = postcode;
 	} else {
 	    throw new IllegalArgumentException("Invalid postcode");

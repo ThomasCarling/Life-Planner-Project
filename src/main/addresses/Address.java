@@ -26,8 +26,8 @@ public class Address implements Serializable {
      *         
      */
     public Address(String postcode) {
-	if (PostcodeChecker.check(postcode)) {
-	this.postcode = PostcodeChecker.fix(postcode);
+	if (PostcodeChecker.checkIsValid(postcode)) {
+	this.postcode = PostcodeChecker.correctFormat(postcode);
 	} else {
 	    throw new IllegalArgumentException("invalid postcode");
 	}
