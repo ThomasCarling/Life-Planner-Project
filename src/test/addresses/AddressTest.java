@@ -10,8 +10,7 @@ import addresses.Address;
 
 public class AddressTest {
     Address one;
-
-    @Before
+    
     public void setUp() throws Exception {
 	one = new Address("E8 2JP");
     }

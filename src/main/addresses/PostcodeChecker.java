@@ -13,7 +13,7 @@ public class PostcodeChecker {
      */
     public static boolean checkIsValid(String postcode) {
 
-	correctFormat(postcode);
+	postcode = correctFormat(postcode);
 
 	/* check that postcode is between 6 and 8 characters long */
 	if (postcode.length() < 6 || postcode.length() > 8) {
@@ -30,7 +30,7 @@ public class PostcodeChecker {
 	String outwardCode = postcode.substring(0, postcode.length() - 4);
 	String inwardCode = postcode.substring(postcode.length() - 3);
 
-	/* Split inwardCode into it's componenents, the Sector (first
+	/* Split inwardCode into it's components, the Sector (first
 	 *  character, should be a single digit) and the Unit (last two
 	 *  characters, should be two letters, excluding C, I, K, M, O, 
 	 *  and V) */
@@ -81,7 +81,8 @@ public class PostcodeChecker {
 		return false;
 	    }
 
-	case 4 : 
+	    /* this has to be length 4 */
+	default : 
 	    outwardCodeChar3 = outwardCode.substring(2, 3);
 	    outwardCodeChar4 = outwardCode.substring(3, 4);
 
@@ -97,9 +98,6 @@ public class PostcodeChecker {
 			? true : false;
 	    }
 	}
-
-	/* just to keep the IDE happy, should never reach this */
-	return false;
     }
 
 
@@ -122,7 +120,7 @@ public class PostcodeChecker {
     /** 
      * Private method to check that a String is made up entirely of capitalised letters.
      * @param checkThis String to check.
-     * @param excludeTheseLetters letters that are invalid, do not include if every letter is valid.
+     * @param excludeTheseLetters letters that are invalid.
      * @return true if the String only includes letters and contains no invalid letters, and 
      * false otherwise.
      */
@@ -139,18 +137,12 @@ public class PostcodeChecker {
 	}
 
 	String validLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	excludeTheseLetters = excludeTheseLetters.toUpperCase();
-	checkThis = checkThis.toUpperCase();
 
 	/* remove the invalid letters from validLetters. */
 	for (int i = 0; i < excludeTheseLetters.length(); i++) {
-	    validLetters.replace(excludeTheseLetters.substring(i, i + 1), "");
+	    validLetters = validLetters.replace(excludeTheseLetters.substring(i, i + 1), "");
 	}
 
 	return validLetters.contains(checkThis) ? true : false;
-    }
-
-    private static boolean checkLetter(String letter) {
-	return checkLetter(letter, "");
     }
 }
