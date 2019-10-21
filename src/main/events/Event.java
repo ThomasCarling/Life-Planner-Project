@@ -18,6 +18,7 @@ public class Event implements Serializable {
 
     private LocalDateTime fixedTime;
     private LocalDateTime assignedTime;
+    
 
     public Event(String name, String postcode, int timeInMinutesToComplete) {
 	this.name = name;

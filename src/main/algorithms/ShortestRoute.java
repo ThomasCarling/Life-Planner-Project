@@ -1,11 +1,12 @@
 package algorithms;
 
+
 import dataStorage.AddressStore;
 import events.Event;
 
 // class to find shortest route between a number of nodes, starting at one, ending at another, and visiting every point.
 
-public class ShortestRoute {
+public class ShortestRoute{
 
     private AddressStore distances;
     private Event[] everyNode;

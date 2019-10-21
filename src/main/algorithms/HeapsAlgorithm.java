@@ -1,5 +1,6 @@
 package algorithms;
 
+
 public class HeapsAlgorithm {
     
     //Algorithm to find every possible order of ints in an array
@@ -23,14 +24,14 @@ public class HeapsAlgorithm {
 	returnIndex = 0;
 	
 
-	calculate(list, length, result, length);
+	getAllPermutations(list, length, result, length);
 	return result;
 	
     }
     
     // gist of the algorithm
     
-    private static void calculate(int[] list, int n, int[][] result, int length) {
+    private static void getAllPermutations(int[] list, int n, int[][] result, int length) {
 	
 	//magic algorithm I don't quite understand...
 	//added and then used variable "returnIndex" to assign location in the array of all results.
@@ -40,14 +41,14 @@ public class HeapsAlgorithm {
 	    }
 	    returnIndex++;
 	} else {
-	    calculate(list, n - 1, result, length);
+	    getAllPermutations(list, n - 1, result, length);
 	    for(int i = 0; i < n - 1; i++) {
 		if(n % 2 == 0) {
 		    swap(list, i, n - 1);
 		} else {
 		    swap(list, 0, n - 1);
 		}
-		calculate(list, n - 1, result, length);
+		getAllPermutations(list, n - 1, result, length);
 	    }
 	}
     }
