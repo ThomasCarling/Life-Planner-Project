@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import gui.eventform.EventFormPanel;
+
 /**
  * JFrame for my project, also currently contains main 
  * method to run the project.
@@ -13,7 +15,7 @@ public class MainFrame extends JFrame {
     
     private static final long serialVersionUID = 1L;
     private Menu menu;
-    private EventForm eventForm;
+    private EventFormPanel eventForm;
     
     public MainFrame(String title) {
 	super(title);
@@ -21,7 +23,15 @@ public class MainFrame extends JFrame {
 	setLayout(new BorderLayout());
 	
 	menu = new Menu();
-	eventForm = new EventForm();
+	eventForm = new EventFormPanel();
+	eventForm.SetEventFormListener(formEvent -> {
+	    String name = formEvent.getName();
+	    String length = formEvent.getLength();
+	    String location = formEvent.getLocation();
+	    
+	    //test that MainFrame is getting the right fields, do more with this later....
+	    System.out.println(name + " : " + length + " minutes long, at " + location + ".");
+	});
 	
 	setJMenuBar(menu);
 	add(eventForm, BorderLayout.WEST);

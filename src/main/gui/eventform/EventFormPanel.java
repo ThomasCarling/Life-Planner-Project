@@ -1,4 +1,4 @@
-package gui;
+package gui.eventform;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -12,7 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-public class EventForm extends JPanel{
+/**
+ * A JPanel that allows the input of a new Event.
+ * 
+ * @author Thomas
+ *
+ */
+public class EventFormPanel extends JPanel{
     
     private static final long serialVersionUID = 6036286048012599252L;
     private JLabel nameLabel;
@@ -22,8 +28,9 @@ public class EventForm extends JPanel{
     private JTextField lengthField;
     private JTextField locationField;
     private JButton enterButton;
+    private EventFormListener listener;
     
-    public EventForm() {
+    public EventFormPanel() {
 	Dimension dim = getPreferredSize();
 	dim.width = 250;
 	setPreferredSize(dim);
@@ -36,6 +43,19 @@ public class EventForm extends JPanel{
 	lengthField = new JTextField(10);
 	locationField = new JTextField(10);
 	enterButton = new JButton("Enter");
+	
+	enterButton.addActionListener(al -> {
+	    String name = nameField.getText();
+	    String length = lengthField.getText();
+	    String location = locationField.getText();
+	    
+	    EventFormEvent event = new EventFormEvent(this, name, length, location);
+	    
+	    if (listener != null) {
+		listener.EventFormEventOccurred(event);
+	    }
+	    
+	});
 	
 	Border innerBorder = BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), "Add new event");
 	Border outerBorder = BorderFactory.createEtchedBorder();
@@ -99,4 +119,7 @@ public class EventForm extends JPanel{
 	add(enterButton, gbc);
     }
     
+    public void SetEventFormListener(EventFormListener listener) {
+	this.listener = listener;
+    }
 }
