@@ -4,14 +4,99 @@ import static org.junit.Assert.*;
 
 import java.util.Arrays;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import algorithms.HeapsAlgorithm;
 
 public class HeapsAlgorithmTest {
 
+    HeapsAlgorithm zero;
+    HeapsAlgorithm one;
+    HeapsAlgorithm two;
+    HeapsAlgorithm three;
+    HeapsAlgorithm four;
+    int[] expectedRow;
+    int actualInt;
+    
+    @Before
+    public void setUp() throws Exception {
+	zero = new HeapsAlgorithm(0);
+	one = new HeapsAlgorithm(1);
+	two = new HeapsAlgorithm(2);
+	three = new HeapsAlgorithm(3);
+	four = new HeapsAlgorithm(4);	
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+	zero = null;
+	one = null;
+	two = null;
+	three = null;
+	four = null;	
+    }
+    
     @Test
+    public void testGetOrder_validRow() {
+	
+	//test four
+	expectedRow = new int[] {0, 1, 2, 3};
+	
+	actualInt = four.get(0, 0);
+	assertEquals(expectedRow[0], actualInt);
+	actualInt = four.get(0, 1);
+	assertEquals(expectedRow[1], actualInt);
+	actualInt = four.get(0, 2);
+	assertEquals(expectedRow[2], actualInt);
+	actualInt = four.get(0, 3);
+	assertEquals(expectedRow[3], actualInt);
+	
+	expectedRow = new int[] {1, 0, 2, 3};
+	actualInt = four.get(1, 0);
+	assertEquals(expectedRow[0], actualInt);
+	actualInt = four.get(1, 1);
+	assertEquals(expectedRow[1], actualInt);
+	actualInt = four.get(1, 2);
+	assertEquals(expectedRow[2], actualInt);
+	actualInt = four.get(1, 3);
+	assertEquals(expectedRow[3], actualInt);
+	
+	expectedRow = new int[] {3, 1, 0, 2};
+	actualInt = four.get(6, 0);
+	assertEquals(expectedRow[0], actualInt);
+	actualInt = four.get(6, 1);
+	assertEquals(expectedRow[1], actualInt);
+	actualInt = four.get(6, 2);
+	assertEquals(expectedRow[2], actualInt);
+	actualInt = four.get(6, 3);
+	assertEquals(expectedRow[3], actualInt);
+	
+	expectedRow = new int[] {0, 2, 3, 1};
+	actualInt = four.get(12, 0);
+	assertEquals(expectedRow[0], actualInt);
+	actualInt = four.get(12, 1);
+	assertEquals(expectedRow[1], actualInt);
+	actualInt = four.get(12, 2);
+	assertEquals(expectedRow[2], actualInt);
+	actualInt = four.get(12, 3);
+	assertEquals(expectedRow[3], actualInt);
+	
+	expectedRow = new int[] {1, 2, 3, 0};
+	actualInt = four.get(23, 0);
+	assertEquals(expectedRow[0], actualInt);
+	actualInt = four.get(23, 1);
+	assertEquals(expectedRow[1], actualInt);
+	actualInt = four.get(23, 2);
+	assertEquals(expectedRow[2], actualInt);
+	actualInt = four.get(23, 3);
+	assertEquals(expectedRow[3], actualInt);
+    }
+    
+    /*@Test
     public void testCalculateNone() {
+	HeapsAlgorithm test
 	int[] testList = {};
 	int[][] result = HeapsAlgorithm.calculate(testList);
 	assertEquals("null", Arrays.toString(result));
@@ -71,25 +156,5 @@ public class HeapsAlgorithmTest {
 	assertEquals("[3, 2, 4, 1]", Arrays.toString(result[22]));
 	assertEquals("[2, 3, 4, 1]", Arrays.toString(result[23]));
 
-    }
-    
-    @Test
-    public void testFactorial() {
-	assertEquals(1, HeapsAlgorithm.factorial(0));
-	assertEquals(1, HeapsAlgorithm.factorial(1));
-	assertEquals(2, HeapsAlgorithm.factorial(2));
-	assertEquals(6, HeapsAlgorithm.factorial(3));
-	assertEquals(24, HeapsAlgorithm.factorial(4));
-
-    }
-
-    @Test
-    public void testSwap() {
-	int[] testList = {0, 1, 2, 3};
-	HeapsAlgorithm.swap(testList, 1, 3);
-	assertEquals("[0, 3, 2, 1]", Arrays.toString(testList));
-	HeapsAlgorithm.swap(testList, 2, 1);
-	assertEquals("[0, 2, 3, 1]", Arrays.toString(testList));
-    }
-
+    } */
 }

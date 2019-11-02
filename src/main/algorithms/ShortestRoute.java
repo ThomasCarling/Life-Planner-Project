@@ -1,136 +1,96 @@
 package algorithms;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dataStorage.AddressStore;
 import events.Event;
 
-// class to find shortest route between a number of nodes, starting at one, ending at another, and visiting every point.
-
+/**
+ * Class to find shortest route between a number of Events, starting at one, ending at another, and visiting every point.
+ * 
+ * @author Thomas
+ *
+ */
 public class ShortestRoute{
-
-    private AddressStore distances;
-    private Event[] everyNode;
-    
-    private int[][] everyCombo;
-    private int[][] distanceGrid;
-    
-    private Event[] shortestRoute;
+    private List<List<Event>> shortestRoutes;
+    private int numberOfRoutes;
     private int shortestTime;
 
-    public ShortestRoute(AddressStore distances, Event start, Event end, Event... otherNodes) {
-	
-	this.distances = distances;
-	
-	
-	//assigning everyNode, with "start" first, "end" last, and "otherNodes" in the middle.
-	this.everyNode = new Event[otherNodes.length + 2];
-	this.everyNode[0] = start;
-	this.everyNode[everyNode.length - 1] = end;
-	for(int i = 0; i < otherNodes.length; i++) {
-	    this.everyNode[i + 1] = otherNodes[i];
-	}
-	
-	// int list of every combination, corresponding to index in "everyNode" variable
-	this.everyCombo = calculateAllCombinations(this.everyNode.length);
-	
-	//grid that contains distance from every node to every other node
-	// eg distanceGrid[2][3] is the distance from node 2 to node 3
-	this.distanceGrid = getDistances();
-	
-	//method that sets shortestRoute and shortestTime
-	calculateShortestCombination();
-	
+    public ShortestRoute(List<Event> everyEvent) {
+	this(null, everyEvent, null);
     }
 
-    // helper methods
-
-    
-    // method to calculate every combination of indices, with startNode first and endNode last
-    
-    protected static int[][] calculateAllCombinations(int length) {
-	int[] sublist = new int[length - 2];
-	for (int i = 0; i < length - 2; i++) {
-	    sublist[i] = i + 1;
-	}
-	
-	//calculate size of "result", which is the number of combos and length of each individual combo
-	int[][] result = new int[HeapsAlgorithm.factorial(length - 2)][length];
-	
-	//pop in 0 for index 0 and last value for last index
-	for (int i = 0; i < result.length; i++) {
-	    result[i][0] = 0;
-	    result[i][result[i].length - 1] = result[i].length - 1;
-	}
-	
-	//get all combinations of sublist, using Heap's algorithm.
-	int[][] subCombos = HeapsAlgorithm.calculate(sublist);
-	
-	// and insert into result 
-	if (subCombos == null) {
-	    return result;
-	}
-	for (int i = 0; i < subCombos.length; i++) {
-	    for (int j = 0; j < subCombos[i].length; j++) {
-		result[i][j + 1] = subCombos[i][j];
-	    }
-	}
-	return result;
+    public ShortestRoute(Event startEvent, List<Event> otherEvents) {
+	this(startEvent, otherEvents, null);
     }
-    
-    
-    //method to put distances from each Event to each other Event into two dimensional array
-    
-    protected int[][] getDistances() {
+
+    public ShortestRoute(List<Event> otherEvents, Event endEvent) {
+	this(null, otherEvents, endEvent);
+    }
+
+    public ShortestRoute(Event startEvent, List<Event> otherEvents, Event endEvent) {
+	int possibleTime;
+	List<Event> possibleRoute;
 	
-	String fromPostcode;
-	String toPostcode;
+	HeapsAlgorithm allPermutations = new HeapsAlgorithm(otherEvents.size());
 	
-	int[][] result = new int[everyNode.length][everyNode.length];
+	possibleRoute = getPossibleRoute(0, allPermutations, startEvent, otherEvents, endEvent);
+	shortestRoutes.add(possibleRoute);
+	shortestTime = getPossibleTime(possibleRoute);
+	numberOfRoutes = 1;
 	
-	for (int i = 0; i < everyNode.length; i++) {
-	    fromPostcode = everyNode[i].getPostcode();
+	for (int i = 1; i < allPermutations.getNumberOfPurmutations(); i++) {
+	    possibleRoute = getPossibleRoute(i, allPermutations,startEvent, otherEvents, endEvent);
+	    possibleTime = getPossibleTime(possibleRoute);
 	    
-	    for (int j = 0; j < everyNode.length; j++) {
-		toPostcode = everyNode[j].getPostcode();
-		
-		result[i][j] = distances.get(fromPostcode).getDistance(toPostcode);
+	    if (possibleTime == shortestTime) {
+		numberOfRoutes++;
+		shortestRoutes.add(possibleRoute);
+	    } else if (possibleTime < shortestTime) {
+		numberOfRoutes = 1;
+		shortestRoutes.clear();
+		shortestRoutes.add(possibleRoute);
 	    }
 	}
-	return result;
     }
     
-    //method to calculate shortest route
-    
-    private void calculateShortestCombination() {
-	int resultIndex = 0;
-	int shortestTime = 1000000;
-	
-	Event[] result = new Event[everyNode.length];
-	int tryTime;
-	
-	for (int i = 0; i < everyCombo.length; i++) {
-	    tryTime = 0;
-	    for (int j = 0; j + 1 < everyCombo[i].length; j++) {
-		tryTime += distanceGrid[everyCombo[i][j]][everyCombo[i][j + 1]];
-	    }
-	    if (tryTime < shortestTime) {
-		shortestTime = tryTime;
-		resultIndex = i;
-	    }
-	}
-	
-	for (int i = 0; i < everyNode.length; i++) {
-	    result[i] = everyNode[everyCombo[resultIndex][i]];
-	}
-	shortestRoute = result;
-	this.shortestTime = shortestTime;
+    public int getNumberOfRoutes() {
+	return numberOfRoutes;
     }
     
-    public Event[] getRoute() {
-	return shortestRoute;
+    public List<Event> getRoute(int routeNumber) {
+	return shortestRoutes.get(routeNumber);
     }
+    
     public int getTime() {
 	return shortestTime;
-    }  
+    }
+    
+    private int getPossibleTime(List<Event> possibleRoute) {
+	int possibleTime = 0;
+	for (int i = 0; i + 1 < possibleRoute.size(); i++) {
+	    Event fromHere = possibleRoute.get(i);
+	    Event toHere = possibleRoute.get(i + 1);
+	    possibleTime += fromHere.getTimeTo(toHere);
+	}
+	return possibleTime;
+    }
+    
+    private List<Event> getPossibleRoute(int permutationNumber, HeapsAlgorithm allPossibilities, Event startEvent, List<Event> otherEvents, Event endEvent) {
+	List<Event> possibleRoute = new ArrayList<Event>();
+	if (startEvent != null) {
+	    possibleRoute.add(startEvent);
+	}
+	for (int i = 0; i < allPossibilities.getLengthOfList(); i++) {
+	    int index = allPossibilities.get(permutationNumber, i);
+	    possibleRoute.add(otherEvents.get(index));
+	}
+	if (endEvent !=null) {
+	    possibleRoute.add(endEvent);
+	}
+	return possibleRoute;
+    }
 }
 
