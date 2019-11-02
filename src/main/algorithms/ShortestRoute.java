@@ -14,35 +14,35 @@ import events.Event;
  *
  */
 public class ShortestRoute {
-    private List<List<Event>> shortestRoutes;
+    private List<List<Node>> shortestRoutes;
     private int numberOfRoutes;
     private int shortestTime;
 
-    public ShortestRoute(List<Event> everyEvent) {
-	this(null, everyEvent, null);
+    public ShortestRoute(List<Node> everyNode) {
+	this(null, everyNode, null);
     }
 
-    public ShortestRoute(Event startEvent, List<Event> otherEvents) {
-	this(startEvent, otherEvents, null);
+    public ShortestRoute(Node startNode, List<Node> otherNodes) {
+	this(startNode, otherNodes, null);
     }
 
-    public ShortestRoute(List<Event> otherEvents, Event endEvent) {
-	this(null, otherEvents, endEvent);
+    public ShortestRoute(List<Node> otherNodes, Node endNode) {
+	this(null, otherNodes, endNode);
     }
 
-    public ShortestRoute(Event startEvent, List<Event> otherEvents, Event endEvent) {
+    public ShortestRoute(Node startNode, List<Node> otherNodes, Node endNode) {
 	int possibleTime;
-	List<Event> possibleRoute;
+	List<Node> possibleRoute;
 	
-	HeapsAlgorithm allPermutations = new HeapsAlgorithm(otherEvents.size());
+	HeapsAlgorithm allPermutations = new HeapsAlgorithm(otherNodes.size());
 	
-	possibleRoute = getPossibleRoute(0, allPermutations, startEvent, otherEvents, endEvent);
+	possibleRoute = getPossibleRoute(0, allPermutations, startNode, otherNodes, endNode);
 	shortestRoutes.add(possibleRoute);
 	shortestTime = getPossibleTime(possibleRoute);
 	numberOfRoutes = 1;
 	
 	for (int i = 1; i < allPermutations.getNumberOfPurmutations(); i++) {
-	    possibleRoute = getPossibleRoute(i, allPermutations,startEvent, otherEvents, endEvent);
+	    possibleRoute = getPossibleRoute(i, allPermutations,startNode, otherNodes, endNode);
 	    possibleTime = getPossibleTime(possibleRoute);
 	    
 	    if (possibleTime == shortestTime) {
@@ -60,7 +60,7 @@ public class ShortestRoute {
 	return numberOfRoutes;
     }
     
-    public List<Event> getRoute(int routeNumber) {
+    public List<Node> getRoute(int routeNumber) {
 	return shortestRoutes.get(routeNumber);
     }
     
@@ -68,27 +68,27 @@ public class ShortestRoute {
 	return shortestTime;
     }
     
-    private int getPossibleTime(List<Event> possibleRoute) {
+    private int getPossibleTime(List<Node> possibleRoute) {
 	int possibleTime = 0;
 	for (int i = 0; i + 1 < possibleRoute.size(); i++) {
-	    Event fromHere = possibleRoute.get(i);
-	    Event toHere = possibleRoute.get(i + 1);
+	    Node fromHere = possibleRoute.get(i);
+	    Node toHere = possibleRoute.get(i + 1);
 	    possibleTime += fromHere.getTimeTo(toHere);
 	}
 	return possibleTime;
     }
     
-    private List<Event> getPossibleRoute(int permutationNumber, HeapsAlgorithm allPossibilities, Event startEvent, List<Event> otherEvents, Event endEvent) {
-	List<Event> possibleRoute = new ArrayList<Event>();
-	if (startEvent != null) {
-	    possibleRoute.add(startEvent);
+    private List<Node> getPossibleRoute(int permutationNumber, HeapsAlgorithm allPossibilities, Node startNode, List<Node> otherNodes, Node endNode) {
+	List<Node> possibleRoute = new ArrayList<Node>();
+	if (startNode != null) {
+	    possibleRoute.add(startNode);
 	}
 	for (int i = 0; i < allPossibilities.getLengthOfList(); i++) {
 	    int index = allPossibilities.get(permutationNumber, i);
-	    possibleRoute.add(otherEvents.get(index));
+	    possibleRoute.add(otherNodes.get(index));
 	}
-	if (endEvent !=null) {
-	    possibleRoute.add(endEvent);
+	if (endNode !=null) {
+	    possibleRoute.add(endNode);
 	}
 	return possibleRoute;
     }

@@ -7,9 +7,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 import addresses.PostcodeChecker;
+import algorithms.Node;
 
-public class Event implements Serializable {
-
+public class Event implements Serializable, Node {
+    
+    private static final long serialVersionUID = 8514509893201820238L;
     private String name;
     private String details;
     private String postcode;
@@ -98,6 +100,24 @@ public class Event implements Serializable {
 	} else {
 	    return false;
 	}
+    }
+
+    @Override
+    public int getTimeTo(Node toHere) {
+	// TODO Auto-generated method stub
+	return 0;
+    }
+
+    @Override
+    public String getEndPostcode() {
+	// TODO Auto-generated method stub
+	return null;
+    }
+
+    @Override
+    public String getStartPostcode() {
+	// TODO Auto-generated method stub
+	return null;
     }
 
 }

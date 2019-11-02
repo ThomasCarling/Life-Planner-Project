@@ -18,7 +18,7 @@ public interface Node {
      * @param toHere the node to go to.
      * @return the time it would take to get to the specified node.
      */
-    public LocalDateTime getTimeTo(Node toHere);
+    public int getTimeTo(Node toHere);
     
     /**
      * Method to receive the final location of a node, in the form of 
