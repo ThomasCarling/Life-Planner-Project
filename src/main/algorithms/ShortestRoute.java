@@ -13,7 +13,7 @@ import events.Event;
  * @author Thomas
  *
  */
-public class ShortestRoute{
+public class ShortestRoute {
     private List<List<Event>> shortestRoutes;
     private int numberOfRoutes;
     private int shortestTime;
