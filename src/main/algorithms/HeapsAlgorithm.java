@@ -11,30 +11,25 @@ public class HeapsAlgorithm {
 
     //fields that are the end result.
     private int lengthOfList;
-    private int numberOfPurmutations;
+    private int numberOfPermutations;
     private int[][] allPermutations;
 
     //and fields that are used in the calculation process.
-
-    //(I'm not entirely sure what 'n' does, however it is vital to the
-    // algorithm, and so I've kept the name 'n', as it was named in the 
-    // example where I originally found the formula)
     private int permutationNumber;
     private int[] workingPermutation;
-    private int n;
     /**
      * Creates a new instance of HeapsAlgorithm.
      * 
-     * @param lengthOfList length of list to find every possible combination of, must be
+     * @param lengthOfList Length of list to find every possible combination of, must be
      * greater than or equal to zero.
      */
     public HeapsAlgorithm(int lengthOfList) {
-	if (n < 0) {
+	if (lengthOfList < 0) {
 	    throw new IllegalArgumentException("lengthOfList must be greater than zero");
 	}
 	this.lengthOfList = lengthOfList;
-	this.numberOfPurmutations = factorial(lengthOfList);
-	allPermutations = new int[numberOfPurmutations][lengthOfList];
+	this.numberOfPermutations = factorial(lengthOfList);
+	allPermutations = new int[numberOfPermutations][lengthOfList];
 
 	//get a list of ascending numbers, of length lengthOfList
 	workingPermutation = new int[lengthOfList];
@@ -45,40 +40,66 @@ public class HeapsAlgorithm {
 	//work out every combination using Heap's Algorithm, 
 	//and save each one to a different index of allPermutations.
 	permutationNumber = 0;
-	n = lengthOfList;
-	if (n > 0) {
-	    getAllPermutations();
+	if (lengthOfList > 0) {
+	    getAllPermutations(lengthOfList);
 	}
     }
 
     /**
-     * method to retrieve a single int from an instance of HeapsAlgorithm.
+     * <ethod to retrieve a single int from an instance of HeapsAlgorithm.
      * 
-     * @param permutationNumber the permutation of the algorithm.
-     * @param indexToRetrieve the index of the specified permutation.
-     * @return
+     * @param permutationNumber The permutation of the algorithm.
+     * @param indexToRetrieve The index of the specified permutation.
+     * @return The specified int.
      */
     public int get(int permutationNumber, int indexToRetrieve) {
 	try {
 	    return allPermutations[permutationNumber][indexToRetrieve];
 	} catch (ArrayIndexOutOfBoundsException e) {
-	    if (permutationNumber > numberOfPurmutations - 1) {
-	    	throw new IllegalArgumentException("permutationNumber must be between 0 and " + (numberOfPurmutations - 1) + ".");
+	    if (permutationNumber > numberOfPermutations - 1) {
+	    	throw new IllegalArgumentException("permutationNumber must be between 0 and " + (numberOfPermutations - 1) + ".");
 	    } else {
 		throw new IllegalArgumentException("indexToRetrieve must be between 0 and " + (lengthOfList - 1) + ".");
 	    }
 	}
     }
-
-    public int getNumberOfPurmutations() {
-	return numberOfPurmutations;
+    
+    /**
+     * Method to retrieve an array containing the specified permutation of the HeapsAlgorithm.
+     * @param permutationNumber The permutation to retrieve.
+     * @return The specified permutation.
+     */
+    public int[] getRow(int permutationNumber) {
+	int[] row = new int[lengthOfList];
+	for (int i = 0; i < lengthOfList; i++) {
+	    row[i] = get(permutationNumber, i);
+	}
+	return row;
     }
 
+    /**
+     * Method to return the number of possible permutations.
+     * @return The number of possible permutations.
+     */
+    public int getNumberOfPermutations() {
+	return numberOfPermutations;
+    }
+
+    /**
+     * Method to get the length of each permutation.
+     * @return The length.
+     */
     public int getLengthOfList() {
 	return lengthOfList;
     }
 
-    private void getAllPermutations() {
+    /**
+     * Private method to calculate each individual permutation, based on the length of the list.
+     * 
+     * @param n Magic number that I don't quite understand, but is vital to the formula. Always
+     * starts as the length of the list.
+     */
+    private void getAllPermutations(int n) {
 
 	//magic algorithm I don't quite understand... seems to work fine.
 	//used variable "returnIndex" to assign location in the array of all results.
@@ -88,16 +109,14 @@ public class HeapsAlgorithm {
 	    }
 	    permutationNumber++;
 	} else {
-	    n--;
-	    getAllPermutations();
+	    getAllPermutations(n - 1);
 	    for(int i = 0; i < n - 1; i++) {
 		if(n % 2 == 0) {
 		    swap(i, n - 1);
 		} else {
 		    swap(0, n - 1);
 		}
-		n--;
-		getAllPermutations();
+		getAllPermutations(n - 1);
 	    }
 	}
     }
